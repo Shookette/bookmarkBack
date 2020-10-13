@@ -1,12 +1,9 @@
 const axios = require("axios");
 
 class MarkerService {
-  getTypeByUrl = url => {
+  getTypeByUrl = (url = '') => {
     const pathElements = url.split('/');
     const domain = pathElements[2];
-
-    console.log(pathElements);
-    console.log(domain);
 
     switch (domain) {
       case 'vimeo.com':
@@ -33,28 +30,39 @@ class MarkerService {
     }
   }
 
-  formatDataByType = (type, data) => {
+  formatDateToIso = date => {
+    const useDate = !!date ? date : new Date();
+    return new Date(useDate)
+      .toISOString()
+      .split("T")[0];
+  }
+
+  formatDataByType = (type, data = {}) => {
+    if (data === null || data === undefined) {
+      data = {};
+    } 
+
     switch (type) {
       case 'video':
         return {
-          url: data.base_url,
-          title: data.title,
-          type: data.type,
-          author: data.author_name,
-          date: data.upload_date,
-          lenght: data.duration,
-          height: data.height,
-          width: data.width
+          url: data.base_url || '',
+          title: data.title || '',
+          type: data.type || '',
+          author: data.author_name || '',
+          date: this.formatDateToIso(data.upload_date) || '',
+          duration: data.duration || '',
+          height: data.height || '',
+          width: data.width || ''
         }
       case 'photo':
         return {
-          url: data.url,
-          title: data.title,
-          type: data.type,
-          author: data.author_name,
-          date: data.upload_date,
-          height: data.height,
-          width: data.width
+          url: data.url || '',
+          title: data.title || '',
+          type: data.type || '',
+          author: data.author_name || '',
+          date: this.formatDateToIso(data.upload_date) || '',
+          height: data.height || '',
+          width: data.width || ''
         }
       default:
         return {};

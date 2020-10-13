@@ -6,7 +6,7 @@ const marker = new mongoose.Schema({
   type: { type: String, trim: true },
   author: { type: String, trim: true },
   date: { type: String, trim: true },
-  length: { type: String, trim: true },
+  duration: { type: String, trim: true },
   height: { type: String, trim: true },
   width: { type: String, trim: true },
   keyword: { type: String, trim: true }
